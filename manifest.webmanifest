@@ -1,0 +1,30 @@
+{
+  "name": "SolutMax Operaciones",
+  "short_name": "SolutMax",
+  "description": "Órdenes de garantía, agenda y facturación de SolutMax LLC",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#13223F",
+  "theme_color": "#13223F",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

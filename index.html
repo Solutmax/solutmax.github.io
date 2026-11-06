@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SolutMax</title>
+<meta name="theme-color" content="#13223F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SolutMax">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  html,body{margin:0;height:100%;background:#13223F;overflow:hidden}
+  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+          gap:18px;background:linear-gradient(160deg,#13223F,#1C3260);color:#AFC0E0;
+          font:500 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;transition:opacity .3s}
+  #splash img{width:84px;height:84px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  #splash b{color:#fff;font-size:17px;letter-spacing:3px}
+  .sp{width:22px;height:22px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:r .8s linear infinite}
+  @keyframes r{to{transform:rotate(360deg)}}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#F3F5F9}
+</style>
+</head>
+<body>
+<iframe id="app" title="SolutMax" allow="clipboard-write; camera"></iframe>
+<div id="splash"><img src="icon-192.png" alt=""><b>SOLUTMAX</b><div class="sp"></div></div>
+<script>
+  // Dirección de la app de Google Apps Script
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbzDmVK2u_8qw9JBSE0Lg8es8pxS3EEmYS0xu_DX6XpNT09rKCSw46Q-DgsavJaA_gNVPw/exec';
+
+  var frame = document.getElementById('app');
+  frame.addEventListener('load', function () {
+    var s = document.getElementById('splash');
+    s.style.opacity = 0; setTimeout(function () { s.remove(); }, 350);
+  });
+  frame.src = APP_URL;
+
+  // La app (servida por Google) pide o guarda el usuario y PIN en este dispositivo
+  window.addEventListener('message', function (e) {
+    if (!/\.googleusercontent\.com$/.test(new URL(e.origin).hostname)) return;
+    var d = e.data || {};
+    try {
+      if (d.sm === 'need-cred') {
+        var c = JSON.parse(localStorage.getItem('sm_cred') || 'null');
+        if (c && c.u && c.p) e.source.postMessage({ sm: 'cred', cred: c }, e.origin);
+      } else if (d.sm === 'save-cred') {
+        if (d.cred) localStorage.setItem('sm_cred', JSON.stringify(d.cred));
+        else localStorage.removeItem('sm_cred');
+      }
+    } catch (x) {}
+  });
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
+</script>
+</body>
+</html>
