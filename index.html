@@ -25,7 +25,7 @@
 </style>
 </head>
 <body>
-<iframe id="app" title="SolutMax" allow="clipboard-write; camera"></iframe>
+<iframe id="app" title="SolutMax" allow="geolocation *; clipboard-write"></iframe>
 <div id="splash"><img src="icon-192.png" alt=""><b>SOLUTMAX</b><div class="sp"></div></div>
 <script>
   // Dirección de la app de Google Apps Script
@@ -46,6 +46,8 @@
       if (d.sm === 'need-cred') {
         var c = JSON.parse(localStorage.getItem('sm_cred') || 'null');
         if (c && c.u && c.p) e.source.postMessage({ sm: 'cred', cred: c }, e.origin);
+      } else if (d.sm === 'reload') {
+        frame.src = APP_URL + '?v=' + Date.now();
       } else if (d.sm === 'save-cred') {
         if (d.cred) localStorage.setItem('sm_cred', JSON.stringify(d.cred));
         else localStorage.removeItem('sm_cred');
